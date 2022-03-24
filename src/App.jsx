@@ -1,23 +1,34 @@
 import "./App.css";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
+const variants = {
+  odd: {
+    backgroundColor: "#333",
+    color: "#fff",
+    scale: 0.8,
+  },
+  even: {
+    backgroundColor: "#999",
+    color: "#000",
+    scale: 1,
+  },
+};
 
 function App() {
+  const [counter, setCounter] = useState(0);
+
   return (
-    <div className="App">
+    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <motion.div
         className="box"
-        initial={{ scale: 1 }}
-        transition={{ duration: 2 }}
-        animate={{ scale: 2, rotate: 45 }}
-      />
-
-      {/*  <motion.h1
-        initial={{ color: "#ffffff" }}
-        animate={{ y: 100, color: "#656CFF" }}
-        transition={{ duration: 1 }}
+        variants={variants}
+        animate={counter % 2 === 0 ? "even" : "odd"}
       >
-        hi
-      </motion.h1> */}
+        {counter}
+      </motion.div>
+
+      <button onClick={() => setCounter((counter) => counter + 1)}>add</button>
     </div>
   );
 }
