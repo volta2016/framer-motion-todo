@@ -1,34 +1,28 @@
 import "./App.css";
-import { motion } from "framer-motion";
-import { useState } from "react";
-
-const variants = {
-  odd: {
-    backgroundColor: "#333",
-    color: "#fff",
-    scale: 0.8,
-  },
-  even: {
-    backgroundColor: "#999",
-    color: "#000",
-    scale: 1,
-  },
-};
+import { motion, useTransform, useMotionValue } from "framer-motion";
 
 function App() {
-  const [counter, setCounter] = useState(0);
+  const drag = "drag";
+  const y = useMotionValue(0); //sería una props o referencia en style
+  const backgroundColor = useTransform(
+    y,
+    [-100, 0, 100],
+    ["#fff", "#999", "#000"]
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <motion.div
+        style={{ backgroundColor, y }}
         className="box"
-        variants={variants}
-        animate={counter % 2 === 0 ? "even" : "odd"}
+        drag="y"
+        dragConstraints={{
+          top: -100,
+          bottom: 100,
+        }}
       >
-        {counter}
+        {drag}
       </motion.div>
-
-      <button onClick={() => setCounter((counter) => counter + 1)}>add</button>
     </div>
   );
 }
